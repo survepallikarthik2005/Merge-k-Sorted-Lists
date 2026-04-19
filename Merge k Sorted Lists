@@ -1,0 +1,37 @@
+import java.util.PriorityQueue;
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        
+        if (lists == null || lists.length == 0) return null;
+
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(
+            (a, b) -> a.val - b.val
+        );
+
+        // Step 1: Add first node of each list
+        for (ListNode list : lists) {
+            if (list != null) {
+                pq.add(list);
+            }
+        }
+
+        // Dummy node
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        // Step 2: Process heap
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            current.next = node;
+            current = current.next;
+
+            // Step 3: Add next node
+            if (node.next != null) {
+                pq.add(node.next);
+            }
+        }
+
+        return dummy.next;
+    }
+}
